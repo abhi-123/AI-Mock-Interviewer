@@ -45,6 +45,7 @@ function Sidebar({
               key={index}
               className={`flex items-center gap-3 p-2 rounded-lg ${disableClass} ${activeClass}`}
               onClick={() => {
+                if (!ques.visited) return;
                 setCurrentIndex(index);
               }}
             >
