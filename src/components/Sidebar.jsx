@@ -9,7 +9,7 @@ function Sidebar({
 }) {
   console.log(questions, currentIndex);
   return (
-    <aside className="bg-white border-r p-5 flex flex-col md:sticky md:top-0 md:h-screen">
+    <aside className="bg-white border-r p-5 flex flex-col md:sticky md:top-0 md:h-screen h-[40%]">
       <div className="mb-6">
         <h2 className="text-2xl font-bold text-gray-800">
           Welcome, {name || "Candidate"} 👋
@@ -20,7 +20,7 @@ function Sidebar({
         </p>
       </div>
 
-      <div className="space-y-3 overflow-y-auto flex-1 min-h-0">
+      <div className="space-y-3 overflow-y-auto flex-1">
         {/* Step Item */}
         {questions?.map((ques, index) => {
           const disableClass =

@@ -27,7 +27,7 @@ function InterviewLayout({
         answerLoading={answerLoading}
       />
       {/* 🔹 Main Content */}
-      <main className="p-6 overflow-y-auto">
+      <main className="p-6 overflow-y-auto flex-1 md:h-auto">
         <div className="max-w-3xl mx-auto space-y-6">
           <InterviewPanel
             questions={questions}
