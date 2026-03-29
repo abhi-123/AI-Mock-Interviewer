@@ -100,6 +100,7 @@ function App() {
           setStep={setStep}
           setQuestions={setQuestions}
           setCurrentIndex={setCurrentIndex}
+          setProfileData={setProfileData}
         />
       )}
     </>

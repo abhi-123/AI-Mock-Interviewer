@@ -1,6 +1,12 @@
 import React from "react";
 
-function FinalResult({ questions, setStep, setQuestions, setCurrentIndex }) {
+function FinalResult({
+  questions,
+  setStep,
+  setQuestions,
+  setCurrentIndex,
+  setProfileData,
+}) {
   const total = questions.length;
   const attempted = questions.filter((q) => q.evaluated);
 
@@ -48,6 +54,15 @@ function FinalResult({ questions, setStep, setQuestions, setCurrentIndex }) {
     setStep("setup");
     setQuestions([]);
     setCurrentIndex(0);
+    setProfileData({
+      name: "",
+      role: "",
+      expLevel: "",
+      skills: "",
+      context: "",
+      questionType: "",
+      isDeep: false,
+    });
   };
 
   return (
