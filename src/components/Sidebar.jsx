@@ -9,7 +9,7 @@ function Sidebar({
 }) {
   console.log(questions, currentIndex);
   return (
-    <aside className="bg-white border-r p-5 flex flex-col sticky top-0 h-screen">
+    <aside className="bg-white border-r p-5 flex flex-col md:sticky md:top-0 md:h-screen">
       <div className="mb-6">
         <h2 className="text-2xl font-bold text-gray-800">
           Welcome, {name || "Candidate"} 👋
