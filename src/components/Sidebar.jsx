@@ -20,7 +20,7 @@ function Sidebar({
         </p>
       </div>
 
-      <div className="space-y-3 overflow-y-auto">
+      <div className="space-y-3 overflow-y-auto flex-1">
         {/* Step Item */}
         {questions?.map((ques, index) => {
           const disableClass =

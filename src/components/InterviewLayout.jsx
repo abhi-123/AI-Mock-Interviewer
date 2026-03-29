@@ -17,7 +17,7 @@ function InterviewLayout({
   const [showEndModal, setShowEndModal] = useState(false);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-[260px_1fr] h-screen bg-gray-100">
+    <div className="flex flex-col md:grid md:grid-cols-[260px_1fr] h-screen bg-gray-100">
       {/* 🔹 Sidebar */}
       <Sidebar
         questions={questions}
