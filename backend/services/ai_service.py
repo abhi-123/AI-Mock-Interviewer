@@ -113,7 +113,6 @@ async def generate_questions(data):
             {"role": "system", "content": "You are a helpful AI interviewer."},
             {"role": "user", "content": prompt},
         ],
-        temperature=0,
         response_format={"type": "json_object"}
     )
     content = response.choices[0].message.content
@@ -174,7 +173,6 @@ async def evaluate_answer(data):
             {"role": "system", "content": "You are a strict technical interviewer."},
             {"role": "user", "content": prompt},
         ],
-         temperature=0,
         response_format={"type": "json_object"}
 
     )
