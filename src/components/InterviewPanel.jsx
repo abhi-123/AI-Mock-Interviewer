@@ -1,5 +1,5 @@
 import { evaluateQuestion } from "../api/api";
-
+import { useEffect } from "react";
 function InterviewPanel({
   questions,
   currentIndex,
@@ -9,8 +9,19 @@ function InterviewPanel({
   answerLoading,
   setAnswerLoading,
   setShowEndModal,
+  feedbackRef,
 }) {
   const currentQuestion = questions[currentIndex];
+
+  useEffect(() => {
+    if (questions[currentIndex]?.evaluated) {
+      console.log(feedbackRef, "feedbackref");
+      feedbackRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  }, [questions]);
 
   // 🔥 HANDLE MCQ SELECT
   const handleSelectOption = (option) => {

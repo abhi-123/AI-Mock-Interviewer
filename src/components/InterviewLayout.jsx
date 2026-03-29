@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Feedback from "./Feedback";
 import Sidebar from "./Sidebar";
 import InterviewPanel from "./InterviewPanel";
@@ -15,6 +15,8 @@ function InterviewLayout({
 }) {
   const [answerLoading, setAnswerLoading] = useState(false);
   const [showEndModal, setShowEndModal] = useState(false);
+
+  const feedbackRef = useRef(null);
 
   return (
     <div className="flex flex-col md:grid md:grid-cols-[260px_1fr] h-screen bg-gray-100">
@@ -38,17 +40,20 @@ function InterviewLayout({
             answerLoading={answerLoading}
             setAnswerLoading={setAnswerLoading}
             setShowEndModal={setShowEndModal}
+            feedbackRef={feedbackRef}
           />
           {/* Feedback */}
-          <Feedback
-            data={questions[currentIndex]}
-            answerLoading={answerLoading}
-            currentIndex={currentIndex}
-            setCurrentIndex={setCurrentIndex}
-            questions={questions}
-            setQuestions={setQuestions}
-            setShowEndModal={setShowEndModal}
-          />
+          <div ref={feedbackRef}>
+            <Feedback
+              data={questions[currentIndex]}
+              answerLoading={answerLoading}
+              currentIndex={currentIndex}
+              setCurrentIndex={setCurrentIndex}
+              questions={questions}
+              setQuestions={setQuestions}
+              setShowEndModal={setShowEndModal}
+            />
+          </div>
           {/* <NextSubmit /> */}
           {showEndModal && (
             <EndInterviewModal
