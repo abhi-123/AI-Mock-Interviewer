@@ -56,7 +56,7 @@ Advanced:
 -------------------------
 OUTPUT REQUIREMENTS
 -------------------------
-- Generate EXACTLY 10 questions
+- Generate EXACTLY 15 questions
 - Keep language clear and professional
 - Ensure variety across questions
 
@@ -66,7 +66,6 @@ FORMAT BASED ON QUESTION TYPE
 
 IF Question Format = "MCQ":
 
-- Generate 10 MCQs
 - Each MUST include:
   - question
   - 4 options (string array)
