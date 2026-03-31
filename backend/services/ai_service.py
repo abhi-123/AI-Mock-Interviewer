@@ -9,97 +9,122 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 def generate_prompt(data):
     return f"""
-You are a senior technical interviewer with 10+ years of experience.
+You are an expert interviewer with 10+ years of experience across multiple domains (Tech, Banking, SSC, Sales, etc.).
 
-Candidate Profile:
-- Name : {data.name}
-- Role: {data.role}
-- Experience Level: {data.expLevel}
-- Skills: {data.skills}
-- Additional Context: {data.context}
-- Question Type: {data.questionType}
+Your task is to generate HIGH-QUALITY, NON-GENERIC interview questions tailored to the candidate profile.
 
-STRICT RULES:
-- Questions MUST vary based on experience level
-- DO NOT generate common/basic questions unless experience is Beginner
-- Avoid repeating standard questions like "What is useEffect?"
-- Make questions more complex as experience increases
+-------------------------
+CANDIDATE PROFILE
+-------------------------
+- Name: {data.name}
+- Target Role / Exam: {data.role}
+- Level: {data.expLevel}
+- Topics / Subjects: {data.skills}
+- Focus Areas: {data.context}
+- Question Format: {data.questionType}
 
-Experience Guidelines:
+-------------------------
+STRICT RULES
+-------------------------
+- Questions MUST adapt to the given level
+- Avoid generic or textbook questions
+- Avoid repetition of common questions
+- Questions should feel REAL interview-like
+- Prefer scenario-based and applied thinking
+
+-------------------------
+DIFFICULTY LOGIC
+-------------------------
 
 Beginner:
-- Basic concepts
-- Definitions
-- Simple examples
+- Basic understanding
+- Simple definitions
+- Straightforward examples
 
 Intermediate:
-- Real-world scenarios
-- Debugging questions
-- "Why" and "How" questions
+- Real-world use cases
+- Debugging scenarios
+- “Why” and “How” questions
 
 Advanced:
-- System design thinking
-- Performance optimization
-- Edge cases
+- System thinking
 - Trade-offs
-- Architecture decisions
+- Edge cases
+- Performance considerations
+- Architecture-level questions
 
-Instructions:
-- Generate 10 interview questions
-- Focus on real-world scenarios
-- Avoid generic questions
+-------------------------
+OUTPUT REQUIREMENTS
+-------------------------
+- Generate EXACTLY 10 questions
+- Keep language clear and professional
+- Ensure variety across questions
 
+-------------------------
+FORMAT BASED ON QUESTION TYPE
+-------------------------
 
-IF Question Type = "MCQ":
+IF Question Format = "MCQ":
 
 - Generate 10 MCQs
-- Each question must have:
-  - 4 options
-  - Only ONE correct answer
-  - Shuffle options
-  - Include explanation
+- Each MUST include:
+  - question
+  - 4 options (string array)
+  - correct answer (must match one option exactly)
+  - explanation (clear reasoning)
+  - type = "mcq"
 
-Format:
+RETURN FORMAT:
 [
-  {{
-    "question": "...",
+  {
+    "question": "string",
     "options": ["A", "B", "C", "D"],
-    "answer": "correct option",
-    "explanation": "why correct"
-    "type": "mcq",
-  }}
+    "answer": "exact correct option",
+    "explanation": "string",
+    "type": "mcq"
+  }
 ]
 
----
+-------------------------
 
-IF Question Type = "Theory":
+IF Question Format = "Conceptual":
 
-- theory → deep conceptual questions
-Format:
+- Generate deep conceptual questions
+- No options
+- Include difficulty tag
+
+RETURN FORMAT:
 [
-  {{
+  {
     "question": "string",
-    "type": "{data.questionType}",
+    "type": "conceptual",
     "difficulty": "easy | medium | hard"
-  }}
+  }
 ]
 
----
+-------------------------
 
-IF Question Type = "Coding":
--include problem
-Format:
+IF Question Format = "Practical":
+
+- Generate real-world or coding-style problems
+- Focus on problem-solving
+- Include difficulty
+
+RETURN FORMAT:
 [
-  {{
+  {
     "question": "string",
-    "type": "{data.questionType}",
+    "type": "practical",
     "difficulty": "easy | medium | hard"
-  }}
+  }
 ]
 
----
+-------------------------
 
-Return JSON format:
+IMPORTANT:
+- RETURN ONLY VALID JSON
+- DO NOT include extra text
+- DO NOT include explanations outside JSON
 """
 
 
@@ -120,36 +145,75 @@ async def generate_questions(data):
 
 def generate_evaluation_prompt(data):
     return f"""
-You are a senior technical interviewer.
+You are an experienced interviewer evaluating answers strictly and consistently.
 
-Evaluate the candidate's answer strictly like a real interview.
-
-Candidate Profile:
+-------------------------
+CANDIDATE PROFILE
+-------------------------
 - Role: {data.role}
-- Experience Level: {data.expLevel}
+- Level: {data.expLevel}
 
-Question:
+-------------------------
+QUESTION
+-------------------------
 {data.question}
 
-Your Answer:
+-------------------------
+CANDIDATE ANSWER
+-------------------------
 {data.answer}
 
-Instructions:
-- Score each category from 1 to 10
-- Be strict but fair
-- Avoid generic feedback
-- You must give consistent scoring.
-- If the same answer is evaluated multiple times, the score MUST remain the same.
-- Do not vary scores randomly.
+-------------------------
+EVALUATION RULES (STRICT)
+-------------------------
+- Be objective and deterministic
+- Same answer MUST always produce SAME score
+- Do NOT vary scoring randomly
+- Avoid vague or generic feedback
+- Penalize incorrect or missing concepts clearly
+- Reward precise and relevant explanations
 
-Evaluation Categories:
-1. Correctness (technical accuracy)
-2. Clarity (explanation quality)
-3. Depth (advanced understanding)
-4. Structure (logical flow)
+-------------------------
+SCORING CRITERIA (VERY IMPORTANT)
+-------------------------
 
-Return ONLY valid JSON (no extra text):
+Correctness (1–10):
+- 1–3 → Incorrect / irrelevant
+- 4–6 → Partially correct but missing key points
+- 7–8 → Mostly correct with minor gaps
+- 9–10 → Fully correct and accurate
 
+Clarity (1–10):
+- 1–3 → Confusing / unclear
+- 4–6 → Understandable but not well explained
+- 7–8 → Clear and structured
+- 9–10 → Very clear, concise, easy to follow
+
+Depth (1–10):
+- 1–3 → Surface-level answer
+- 4–6 → Some explanation but lacks depth
+- 7–8 → Good depth with reasoning
+- 9–10 → Advanced insights, edge cases, trade-offs
+
+Structure (1–10):
+- 1–3 → Poor structure
+- 4–6 → Basic flow
+- 7–8 → Well-organized
+- 9–10 → Excellent logical flow
+
+-------------------------
+IMPORTANT CONSISTENCY RULE
+-------------------------
+- Use ONLY the provided answer
+- Do NOT assume extra knowledge
+- Do NOT hallucinate missing points
+- Base score strictly on visible content
+
+-------------------------
+OUTPUT FORMAT (STRICT JSON)
+-------------------------
+
+Return ONLY valid JSON:
 {{
   "breakdown": {{
     "correctness": number,
@@ -157,10 +221,11 @@ Return ONLY valid JSON (no extra text):
     "depth": number,
     "structure": number
   }},
-  "feedback": "detailed feedback",
-  "strengths": "what was good",
-  "improvements": "what to improve",
-  "correct_approach": "ideal answer summary"
+  "overall_score": number,
+  "feedback": "specific and detailed feedback",
+  "strengths": "clear positives",
+  "improvements": "specific improvements",
+  "correct_approach": "ideal concise answer"
 }}
 """
 

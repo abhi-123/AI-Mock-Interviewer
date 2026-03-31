@@ -47,13 +47,13 @@ function ProfileSetup({ onStart, savedProfileData }) {
     onStart(profileData);
   };
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
-      <div className="w-full max-w-2xl bg-white rounded-2xl shadow p-8 space-y-6">
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-2 md:p-4">
+      <div className="w-full max-w-2xl bg-white rounded-2xl shadow p-4 md:p-8 space-y-6">
         {/* Title */}
         <div className="text-center space-y-2">
-          <h1 className="text-2xl font-bold">🧠 AI Mock Interview</h1>
+          <h1 className="text-2xl font-bold">🧠 AI Interview Practice</h1>
           <p className="text-gray-500 text-sm">
-            Get personalized interview questions based on your profile
+            Get personalized questions tailored to your profile and goals
           </p>
         </div>
 
@@ -84,11 +84,11 @@ function ProfileSetup({ onStart, savedProfileData }) {
         <div className="space-y-2">
           <label className="mb-1 text-sm font-semibold text-gray-700">
             <span className="text-red-500 mr-1">*</span>
-            Role
+            Role / Exam
           </label>
           <input
             type="text"
-            placeholder="e.g. Frontend Developer, Backend Developer"
+            placeholder="e.g. Frontend Developer, Bank PO, SSC CGL, Sales Executive"
             className="w-full p-3 border rounded-xl outline-none focus:ring-2 focus:ring-purple-400"
             name="role"
             value={profileData.role}
@@ -98,7 +98,7 @@ function ProfileSetup({ onStart, savedProfileData }) {
           {error.role && (
             <p className="flex items-center gap-2 text-sm text-red-500 mt-1">
               <span>⚠️</span>
-              <span>Role is required</span>
+              <span>Role / Exam is required</span>
             </p>
           )}
         </div>
@@ -107,7 +107,7 @@ function ProfileSetup({ onStart, savedProfileData }) {
         <div className="space-y-2">
           <label className="mb-1 text-sm font-semibold text-gray-700">
             <span className="text-red-500 mr-1">*</span>
-            Experience Level
+            Your Level
           </label>
           <div className="relative">
             <select
@@ -120,7 +120,7 @@ function ProfileSetup({ onStart, savedProfileData }) {
               <option value="">Select level</option>
               <option value="Beginner">Beginner</option>
               <option value="Intermediate">Intermediate</option>
-              <option value="Expert">Expert</option>
+              <option value="Expert">Advanced</option>
             </select>
             {/* Custom Caret */}
             <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-gray-500">
@@ -131,22 +131,22 @@ function ProfileSetup({ onStart, savedProfileData }) {
           {error.expLevel && (
             <p className="flex items-center gap-2 text-sm text-red-500 mt-1">
               <span>⚠️</span>
-              <span>Experience Level is required</span>
+              <span>Level is required</span>
             </p>
           )}
         </div>
 
         <div className="space-y-2">
           <label className="text-sm font-semibold text-gray-700">
-            <span className="text-red-500 mr-1">*</span>Question Type (Choose
+            <span className="text-red-500 mr-1">*</span>Question Format (Choose
             one)
           </label>
 
           <div className="grid grid-cols-3 gap-3">
-            {["MCQ", "Theory", "Coding"].map((type) => (
+            {["MCQ", "Conceptual", "Practical"].map((type) => (
               <button
                 key={type}
-                className={`p-3 rounded-xl border text-sm font-medium transition ${
+                className={`${type === "Conceptual" ? "p-2" : "p-3"} rounded-xl border text-sm font-medium transition ${
                   profileData.questionType === type
                     ? "bg-purple-600 text-white border-purple-600"
                     : "bg-white text-gray-700 hover:border-purple-400"
@@ -167,7 +167,7 @@ function ProfileSetup({ onStart, savedProfileData }) {
           {error.questionType && (
             <p className="flex items-center gap-2 text-sm text-red-500 mt-1">
               <span>⚠️</span>
-              <span>Question type is required</span>
+              <span>Question format is required</span>
             </p>
           )}
         </div>
@@ -175,11 +175,11 @@ function ProfileSetup({ onStart, savedProfileData }) {
         {/* Skill */}
         <div className="space-y-2">
           <label className="mb-1 text-sm font-semibold text-gray-700">
-            Skills (optional)
+            Key Topics / Subjects (optional)
           </label>
           <input
             type="text"
-            placeholder="e.g. React, Javascript, Node.js"
+            placeholder="e.g. React, Aptitude, Reasoning, Sales"
             className="w-full p-3 border rounded-xl outline-none focus:ring-2 focus:ring-purple-400"
             name="skills"
             value={profileData.skills}
@@ -191,10 +191,10 @@ function ProfileSetup({ onStart, savedProfileData }) {
         {/* Optional Context */}
         <div className="space-y-1">
           <label className="mb-1 text-sm font-semibold text-gray-700">
-            Want specific topics? (optional)
+            Focus Areas (optional)
           </label>
           <textarea
-            placeholder="e.g. Ask more questions on React useEffect, performance optimization..."
+            placeholder="e.g. Puzzles, Current Affairs, React Hooks, Negotiation Skills"
             className="w-full h-28 p-3 border rounded-xl outline-none focus:ring-2 focus:ring-purple-400 resize-none"
             name="context"
             value={profileData.context}
