@@ -76,13 +76,13 @@ IF Question Format = "MCQ":
 
 RETURN FORMAT:
 [
-  {
+  {{
     "question": "string",
     "options": ["A", "B", "C", "D"],
     "answer": "exact correct option",
     "explanation": "string",
     "type": "mcq"
-  }
+  }}
 ]
 
 -------------------------
@@ -95,11 +95,11 @@ IF Question Format = "Conceptual":
 
 RETURN FORMAT:
 [
-  {
+  {{
     "question": "string",
     "type": "conceptual",
     "difficulty": "easy | medium | hard"
-  }
+  }}
 ]
 
 -------------------------
@@ -112,11 +112,11 @@ IF Question Format = "Practical":
 
 RETURN FORMAT:
 [
-  {
+  {{
     "question": "string",
     "type": "practical",
     "difficulty": "easy | medium | hard"
-  }
+  }}
 ]
 
 -------------------------
