@@ -56,7 +56,9 @@ Advanced:
 -------------------------
 OUTPUT REQUIREMENTS
 -------------------------
-- Generate EXACTLY 15 questions
+- Generate EXACTLY 10 questions
+- Do NOT generate less or more than 10
+- Ensure the array length is exactly 10
 - Keep language clear and professional
 - Ensure variety across questions
 
